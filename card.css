@@ -105,9 +105,10 @@
     padding: 10px 100px;
     .row{
         margin: 0;
-        .col-md-6{
+        .rowItem{
             margin: 15px auto;
-            max-width: 350px;
+            width: 350px;
+            min-width: 300px;
             display: flex;
             justify-content: space-between;
             align-items: center;
