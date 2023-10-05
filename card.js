@@ -5,6 +5,9 @@ const compBtn = document.getElementsByClassName('compare');
 const compCheckBox = document.getElementsByClassName('compareBtn');
 const viewCardElem = document.getElementById('view_card');
 const cardPriceElm = document.getElementById('card_price');
+const rowItem = document.getElementsByClassName("rowItem");
+
+
 let alreadyInserted = false;
 
 let data = {}
@@ -147,18 +150,21 @@ async function hasAlreadyInCard(){
     }
 }
 
-//function loop over ana over to dynamic change in dom
-// function animation(){
-//     requestAnimationFrame(animation)
-// }
+// function loop over ana over to dynamic change in dom
+async function animation(){
+    hasAlreadyInCard();
+    showCardItemToIcon()
+    viewCard();
+    // removeFromCart();
+    requestAnimationFrame(animation)
+}
 // animation();
     
-hasAlreadyInCard();
 
 
 
 //function to show card item on nav section
-function showCardItemToIcon(){
+async function showCardItemToIcon(){
     let getLocalData = JSON.parse(localStorage.getItem('product'));
     let cPrice = 0;
     viewCardElem.innerHTML = "0";
@@ -168,25 +174,116 @@ function showCardItemToIcon(){
     //cart item 
 
     if (getLocalData) {
-        if (getLocalData.length > 0) {
-            // let ln = ;
-            //card item
-            viewCardElem.innerHTML = getLocalData.length;
-    
-            //card price
-            getLocalData.forEach((crd)=>{
-                if (crd.p != "") {   
-                    cPrice += parseInt(crd.p);
-                    // console.log(crd.p);
-                }
-            })
-            cardPriceElm.innerHTML = cPrice ?? "0" +" TK";
-            // console.log(cPrice);
-        }else{
-            viewCardElem.innerHTML = 1;
-            cardPriceElm.innerHTML = "0 TK";
-        }    
+        // let ln = ;
+        //card item
+        viewCardElem.innerHTML = getLocalData.length;
+
+        //card price
+        getLocalData.forEach((crd)=>{
+            if (crd.p != "") {   
+                cPrice += parseInt(crd.p);
+                // console.log(crd.p);
+            }
+        })
+        cardPriceElm.innerHTML = cPrice ?? "0" +" TK";
+        // console.log(cPrice);
+
     }
     // console.log("local count: "+getLocalData.length);
 }
+
+
+// function to show cart item on card view page 
+function viewCard() {
+    let localData = JSON.parse(localStorage.getItem("product"));
+    let html = "";
+    let inc = 0;
+    let subTotal = 0;
+    let vat = 0;
+    let total = 0;
+   if (localData) {
+        for (let ld = 0; ld < localData.length; ld++) {
+            let targetRowItem = rowItem[localData[ld].id];
+            ++inc;
+            total += parseInt(localData[ld].p);
+            html += 
+            `
+            <div class="cwb_item">
+                
+                <img width="45" height="45" src="img/img.png" alt="cart img" />
+                <div>
+                    <p style="font-size:13px; display:inline-block; width:300px">${localData[ld].name}</p> 
+                    <div class="cwbi_vat"> Discount: 05%</div>
+
+                </div>
+                <div class="cwbi_prz">${localData[ld].p}</div>
+                <button class="cwbi_index cwbi_remove" onclick="removeFromCart(${ld})">&times;</button>
+            </div>
+            `;
+            
+            // console.log(ld);
+
+        } 
+        document.getElementsByClassName("cw_body")[0].innerHTML = html; 
+        html = "";
+        // console.log(html);
+
+        document.getElementsByClassName("cw_footer")[0].innerHTML = 
+        `
+            <div class="left">
+                ${inc }  items.
+            </div>
+            <div class="right">
+                Total : ${total} TK
+            </div>
+        `;
+   }else{
+    html = 
+    `
+    <div class="alert alert-info">You card is empty !</div>
+    `;
+    document.getElementsByClassName("cw_body")[0].innerHTML = html; 
+   }
+}
+// viewCard();
+
+
+
+// function to remove item from card 
+function removeFromCart(tg) {
+    let localData = JSON.parse(localStorage.getItem("product"));
+    localData.splice(tg, 1);
+    localStorage.setItem("product", JSON.stringify(localData));
+
+    hasAlreadyInCard();
+    showCardItemToIcon()
+    viewCard();
+}
+
+// function to open shoping card
+function openShopingCard() {
+    document.getElementById('shoping_card').classList.add('shoping_show');
+    hasAlreadyInCard();
+    showCardItemToIcon()
+    viewCard();
+}
+
+//function hide shoping card 
+function hideShopingCard() {
+    document.getElementById('shoping_card').classList.remove('shoping_show');
+    hasAlreadyInCard();
+    showCardItemToIcon()
+    viewCard();    
+}
+
+// clear cart 
+function clearCart() {
+    localStorage.clear();
+    viewCard();
+    showCardItemToIcon()
+    hasAlreadyInCard();
+}
+
+hasAlreadyInCard();
 showCardItemToIcon()
+viewCard();

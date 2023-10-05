@@ -21,7 +21,7 @@
             <a class="link_item" href="#">Product</a>
         </div>
         <div class="card_shoping">
-            <button class="shoping_btn" onclick="document.getElementById('shoping_card').classList.add('shoping_show')">
+            <button class="shoping_btn" onclick="openShopingCard()">
                 <i class="fas fa-shopping-cart"></i><div id="view_card"></div>
                 <div id="card_price">1000৳</div>
             </button>
@@ -370,38 +370,19 @@
         </div>
     </div>
 
-    <div id="shoping_card" class="shoping_card">
+    <div id="shoping_card" class="shoping_card shoping_show">
         <div class="card_wrapper">
             <div class="cw_header">
                 <!-- title  -->
                 <div class="cw_title">
                     View Your Cart
+                    <button class="text text-danger btn border rounded" onclick="localStorage.clear()">clear</button>
                 </div>
-                <button class="cw_header-btn" onclick="this.parentElement.parentElement.parentElement.classList.remove('shoping_show')"> &times; </button>
+                <button class="cw_header-btn" onclick="hideShopingCard()"> &times; </button>
 
             </div>
             <div class="cw_body">
-                <div class="cwb_item">
-                    <div class="cwbi_index">01</div>
-                    <img width="20" height="20" src="" alt="cart img" />
-                    <div class="cwbi_qty">1</div>
-                    <div class="cwbi_vat">05%</div>
-                    <div class="cwbi_prz">120</div>
-                </div>
-                <div class="cwb_item">
-                    <div class="cwbi_index">01</div>
-                    <img width="20" height="20" src="" alt="cart img" />
-                    <div class="cwbi_qty">1</div>
-                    <div class="cwbi_vat">05%</div>
-                    <div class="cwbi_prz">120</div>
-                </div>
-                <div class="cwb_item">
-                    <div class="cwbi_index">01</div>
-                    <img width="20" height="20" src="" alt="cart img" />
-                    <div class="cwbi_qty">1</div>
-                    <div class="cwbi_vat">05%</div>
-                    <div class="cwbi_prz">120</div>
-                </div>
+                
             </div>
             <div class="cw_footer">
 
